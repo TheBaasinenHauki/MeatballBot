@@ -2,7 +2,7 @@ import discord
 import os
 from discord.ext import commands
 
-client = commands.Bot(command_prefix = '?')
+client = commands.Bot(command_prefix = '?') #Bot prefix
 
 clear = lambda: os.system('cls')
 
@@ -15,7 +15,7 @@ async def on_ready():
 
 @client.event
 async def on_member_join(member):
-    role = discord.utils.get(member.guild.roles, name="Hoom")
+    role = discord.utils.get(member.guild.roles, name = "") #Auto rank rank name
     await discord.Member.add_roles(member, role)
 
 
@@ -23,9 +23,16 @@ async def on_member_join(member):
 @commands.has_permissions(administrator = True)
 async def _kick(ctx, member: discord.Member, *, MsgReason):
     await ctx.send(f"Kicked {member}, reason {MsgReason}")
+    await member.kick(reason = None)
     channel = await member.create_dm()
     await channel.send(f"You have been kicked, reason {MsgReason}")
-    await channel.send('https://media.discordapp.net/attachments/758256181415641088/760489357164806204/IMG-20200929-WA0000.jpg?width=619&height=350')
-    await member.kick(reason = None)
 
-client.run('NzA3NTcxMDQwMzg1MTA2MDMw.XrKu4g.QYyPtpyvIfHMIRvu1NehF1cBazk')
+@client.command(aliases = ['ban'])
+@commands.has_permissions(administrator = True)
+async def _ban(ctx, member: discord.Member, *, MsgBReason):
+    await ctx.send(f"Banned {member}, reason {MsgBReason}")
+    await member.ban(reason = None)
+    channel = await member.create_dm()
+    await channel.send(f"You have been banned, reason {MsgBReason}")
+
+client.run('')
